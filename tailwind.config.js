@@ -25,6 +25,9 @@ module.exports = {
     fontFamily: {
       sans: ["Noto Sans TC", "sans-serif"],
       "barlow-condensed": ["Barlow Condensed", "sans-serif"],
+      "pp-neue": ["PP Neue Montreal", "sans-serif"],
+      "fake-receipt": ["Fake Receipt", "sans-serif"],
+      "arial-rounded": ["Arial Rounded Bold", "sans-serif"],
     },
   },
 };
