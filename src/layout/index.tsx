@@ -1,3 +1,4 @@
+import Loading from "@/components/common/Loading";
 import useScreen from "@/hooks/useScreen";
 import { useScrollToItem } from "@/hooks/useScrollToItem";
 import getAnchorId from "@/utils/getAnchorId";
@@ -26,12 +27,14 @@ const NAV_ITEMS = [
 function Layout({ children }: { children: React.ReactNode }) {
   const { asPath } = useRouter();
   const [client, setClient] = useState(false);
-  const isOver768 = useScreen({ width: 768, type: "OVER" });
 
   const containerRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
 
   const scrollToItem = useScrollToItem(containerRef, listRef);
+  const handleLinkClick = (index: number) => {
+    scrollToItem(index);
+  };
 
   useEffect(() => {
     setClient(true);
@@ -50,14 +53,13 @@ function Layout({ children }: { children: React.ReactNode }) {
           {NAV_ITEMS.map((item, index) => (
             <div
               key={item.label}
-              className="flex w-full justify-center whitespace-nowrap md:w-max"
+              className="relative flex w-full justify-center whitespace-nowrap md:w-max"
             >
               <Link
                 href={item.href}
                 key={item.label}
                 onClick={() => {
-                  if (isOver768) return;
-                  scrollToItem(index);
+                  handleLinkClick(index);
                 }}
                 className="hover:opacity-70"
               >
@@ -66,7 +68,7 @@ function Layout({ children }: { children: React.ReactNode }) {
                 </span>
               </Link>
               {client && asPath.includes(item.href) && (
-                <div className="absolute -bottom-1 h-px w-full border-b border-dashed" />
+                <div className="absolute -bottom-1 h-px w-full border-b border-dashed border-black" />
               )}
             </div>
           ))}

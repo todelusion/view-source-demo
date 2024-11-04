@@ -1,32 +1,24 @@
-import React from "react";
+import React, { useRef } from "react";
 import Image from "next/image";
 import shopLogo from "@/assets/svg/shop-logo.svg";
 import Upload from "@/components/SVGs/Upload";
-
-interface ContactFormData {
-  name: string;
-  email: string;
-  brandName: string;
-  location: string;
-  file: File | null;
-  message: string;
-}
+import { remoteSubmit } from "@/utils/remoteSubmit";
+import { usePendingStore } from "@/stores/pendingStore";
 
 function Contact() {
+  const formRef = useRef<HTMLFormElement>(null);
+  const updatePending = usePendingStore((state) => state.updatePending);
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-    const formValues: ContactFormData = {
-      name: formData.get("name") as string,
-      email: formData.get("email") as string,
-      brandName: formData.get("brandName") as string,
-      location: formData.get("location") as string,
-      file: formData.get("file") as File,
-      message: formData.get("message") as string,
-    };
+    const formValues = Object.fromEntries(formData.entries());
 
-    console.log("Form values:", formValues);
+    updatePending(true);
+    remoteSubmit(1129, formRef, formData).finally(() => {
+      updatePending(false);
+    });
   };
 
   return (
@@ -34,7 +26,7 @@ function Contact() {
       <div className="w-full max-w-[622px] space-y-5 xl:max-w-none">
         <Image src={shopLogo} alt="" className="w-22 xl:w-28" />
         <h2 className="font-arial-rounded text-[55px] leading-[1.2] tracking-[-2.2px] xl:text-[100px] xl:leading-none">
-          Want to be on <br />
+          Want to <br className="hidden xl:block 2xl:hidden" /> be on <br />
           our shelves?
         </h2>
         <p className="max-w-[530px] font-pp-neue text-[15px] leading-[1.6] tracking-[0.3px] xl:text-[19px] xl:leading-[1.7] xl:tracking-[0.19px]">
@@ -44,6 +36,7 @@ function Contact() {
         </p>
       </div>
       <form
+        ref={formRef}
         onSubmit={handleSubmit}
         className="mt-10 w-full max-w-[622px] space-y-7"
       >
@@ -57,8 +50,8 @@ function Contact() {
             </label>
             <input
               type="text"
-              id="name"
-              name="name"
+              id="user-name"
+              name="user-name"
               required
               className="w-full border-b border-b-LOCAVORE-BLACK bg-transparent focus:outline-none"
             />

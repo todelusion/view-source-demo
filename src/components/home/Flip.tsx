@@ -2,8 +2,10 @@ import React, { useState, useCallback } from "react";
 import { Button } from "@/components/common/Button";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import Bird from "@/components/SVGs/Bird";
 import flip from "@/assets/img/flip.png";
 import useIsTouchDevice from "@/hooks/useIsTouchDevice";
+import { cn } from "@/utils/cn";
 
 function Flip() {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -70,6 +72,12 @@ function Flip() {
             <Image src={flip} alt="" className="w-full" />
           </motion.div>
         </motion.div>
+
+        {/* bird */}
+        <Bird
+          isFlipped={isFlipped}
+          className="absolute -left-1 top-1/2 origin-bottom -translate-y-1/2 lg:left-0 xl:left-1 2xl:left-3"
+        />
       </button>
     </div>
   );
