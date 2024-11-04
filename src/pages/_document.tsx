@@ -24,7 +24,7 @@ export default function Document() {
           type="image/png"
         />
       </Head>
-      <body>
+      <body className="bg-LOCAVORE-POST-IT-GREEN">
         <Main />
         <NextScript />
       </body>
