@@ -1,15 +1,22 @@
 import Seo from "@/components/common/Seo";
-import React from "react";
+import React, { useMemo } from "react";
 import Image from "next/image";
 
 import Intro from "@/components/home/Intro";
 import Flip from "@/components/home/Flip";
 
 import logoOnHover from "@/assets/svg/LOGO-ON-HOVER.svg";
-import Brands from "./Brands";
+import Brands from "@/components/home/Brands";
 import Contact from "@/components/home/Contact";
+import useScrollToAnchor from "@/hooks/useScrollToAnchor";
+import { useRouter } from "next/router";
+import getAnchorId from "@/utils/getAnchorId";
 
 function Home() {
+  const router = useRouter();
+  const dataID = useMemo(() => getAnchorId(router.asPath), [router.asPath]);
+  useScrollToAnchor(dataID);
+
   return (
     <>
       <Seo
@@ -39,16 +46,28 @@ function Home() {
             </div>
           </div>
         </section>
-        <section className="border-b border-dashed border-black pb-[100px] pt-[105px]">
+        <section
+          data-id="about"
+          className="border-b border-dashed border-black pb-[100px] pt-[105px]"
+        >
           <Intro />
         </section>
-        <section className="border-b border-dashed border-black pb-19 pt-10 lg:pt-13">
+        <section
+          data-id="this-month"
+          className="border-b border-dashed border-black pb-19 pt-10 lg:pt-13"
+        >
           <Flip />
         </section>
-        <section className="border-dashed border-black py-[60px] lg:border-b">
+        <section
+          data-id="our-brands"
+          className="border-dashed border-black py-[60px] lg:border-b"
+        >
           <Brands />
         </section>
-        <section className="pb-[89px] pt-8 lg:pb-[93px] xl:pt-[130px]">
+        <section
+          data-id="submit-products"
+          className="pb-[89px] pt-8 lg:pb-[93px] xl:pt-[130px]"
+        >
           <Contact />
         </section>
       </main>

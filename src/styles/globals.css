@@ -21,6 +21,16 @@
   height: 100dvh;
 }
 
+.flip-card {
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
 img {
   -webkit-user-drag: none;
 }

@@ -1,8 +1,34 @@
 import React from "react";
 import Image from "next/image";
 import shopLogo from "@/assets/svg/shop-logo.svg";
+import Upload from "@/components/SVGs/Upload";
+
+interface ContactFormData {
+  name: string;
+  email: string;
+  brandName: string;
+  location: string;
+  file: File | null;
+  message: string;
+}
 
 function Contact() {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    const formValues: ContactFormData = {
+      name: formData.get("name") as string,
+      email: formData.get("email") as string,
+      brandName: formData.get("brandName") as string,
+      location: formData.get("location") as string,
+      file: formData.get("file") as File,
+      message: formData.get("message") as string,
+    };
+
+    console.log("Form values:", formValues);
+  };
+
   return (
     <div className="container mx-auto flex w-full flex-col items-center justify-between xl:flex-row">
       <div className="w-full max-w-[622px] space-y-5 xl:max-w-none">
@@ -17,7 +43,10 @@ function Contact() {
           our directory, reach out with bios, images, etc. below.
         </p>
       </div>
-      <form className="mt-10 w-full max-w-[622px] space-y-7">
+      <form
+        onSubmit={handleSubmit}
+        className="mt-10 w-full max-w-[622px] space-y-7"
+      >
         <div className="space-y-4">
           <div>
             <label
@@ -84,18 +113,26 @@ function Contact() {
           </div>
 
           <div>
-            <label
-              htmlFor="file"
-              className="mb-2 block font-pp-neue text-[15px] leading-[1.6] tracking-[0.3px]"
-            >
+            <div className="mb-2 block font-pp-neue text-[15px] leading-[1.6] tracking-[0.3px]">
               Sell Sheet or Product Catalog*
-            </label>
+            </div>
+            <label htmlFor="file"></label>
             <input
               type="file"
               id="file"
               name="file"
-              className="w-full rounded-lg border border-dashed border-LOCAVORE-BLACK bg-LOCAVORE-PAPER-WHITE py-[17px] pl-5 focus:outline-none"
+              accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg"
+              className="hidden"
             />
+            <label
+              htmlFor="file"
+              className="flex w-full cursor-pointer items-center justify-start rounded-lg border border-dashed border-LOCAVORE-BLACK bg-LOCAVORE-PAPER-WHITE py-[17px] pl-5 text-LOCAVORE-BLACK"
+            >
+              <Upload className="mr-[10px]" />
+              <span className="text-[15px] leading-[1.6] tracking-[0.3px]">
+                Upload a file
+              </span>
+            </label>
           </div>
 
           <div>
